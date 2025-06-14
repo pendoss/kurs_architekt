@@ -1,0 +1,38 @@
+groups:
+  - name: microservices_alerts
+    rules:
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.instance }} is down"
+          description: "{{ $labels.job }} on {{ $labels.instance }} has been down for more than 1 minute."
+
+      - alert: HighRequestLatency
+        expr: http_request_duration_seconds{quantile="0.95"} > 1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High request latency on {{ $labels.instance }}"
+          description: "{{ $labels.job }} on {{ $labels.instance }} has 95th percentile latency above 1s for more than 2 minutes."
+
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status_code=~"5.."}[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate on {{ $labels.instance }}"
+          description: "{{ $labels.job }} on {{ $labels.instance }} has error rate above 10% for more than 2 minutes."
+
+      - alert: LowCacheHitRate
+        expr: rate(cache_hits_total[5m]) / (rate(cache_hits_total[5m]) + rate(cache_misses_total[5m])) < 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low cache hit rate on {{ $labels.instance }}"
+          description: "Cache hit rate on {{ $labels.instance }} is below 50% for more than 5 minutes."

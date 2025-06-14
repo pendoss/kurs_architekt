@@ -1,0 +1,86 @@
+{
+  "id": null,
+  "title": "Query Service Dashboard",
+  "tags": ["microservices", "query-service", "cache"],
+  "style": "dark",
+  "timezone": "browser",
+  "refresh": "5s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Cache Hit Rate",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "rate(cache_hits_total{job=\"query-service\"}[5m]) / (rate(cache_hits_total{job=\"query-service\"}[5m]) + rate(cache_misses_total{job=\"query-service\"}[5m])) * 100",
+          "legendFormat": "Hit Rate %"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": 2,
+      "title": "Cache Hits vs Misses",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "rate(cache_hits_total{job=\"query-service\"}[5m])",
+          "legendFormat": "Cache Hits"
+        },
+        {
+          "expr": "rate(cache_misses_total{job=\"query-service\"}[5m])",
+          "legendFormat": "Cache Misses"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 8,
+        "y": 0
+      }
+    },
+    {
+      "id": 3,
+      "title": "Request Rate",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "rate(http_requests_total{job=\"query-service\"}[5m])",
+          "legendFormat": "{{method}} {{route}}"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      }
+    },
+    {
+      "id": 4,
+      "title": "Response Time",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"query-service\"}[5m]))",
+          "legendFormat": "95th percentile"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      }
+    }
+  ]
+}
