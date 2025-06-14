@@ -35,13 +35,12 @@
 - **AlertManager** - управление алертами
 
 ## Технические требования (выполнены)
-
-✅ **Контейнеризированное микросервисное приложение** (3+ сервиса)
-✅ **Кеширование** (Redis в Query Service)
-✅ **Брокер сообщений** (RabbitMQ между Task Service и Notification Service)
-✅ **Мониторинг** (Prometheus + Grafana для всех сервисов)
-✅ **CQRS** (Task Service разделяет команды и запросы)
-✅ **Event Sourcing** (Task Service хранит события в event store)
+- [x] **Контейнеризированное микросервисное приложение** (3+ сервиса)
+- [x] **Кеширование** (Redis в Query Service)
+- [x] **Брокер сообщений** (RabbitMQ между Task Service и Notification Service)
+- [x] **Мониторинг** (Prometheus + Grafana для всех сервисов)
+- [x] **CQRS** (Task Service разделяет команды и запросы)
+- [x] **Event Sourcing** (Task Service хранит события в event store)
 
 ## Структура проекта
 
